@@ -1,0 +1,89 @@
+*gql*	Execute Graphql query in vim.
+
+Version: 0.1.0
+Author: Shinya Ohynagi <sohyanagi@gmail.com>
+Repository: http://github.com/heavenshell/vim-gql/
+License: BSD, see LICENSE for more details.
+
+==============================================================================
+CONTENTS						*gql-contents*
+
+Introduction		|gql-introduction|
+Install			|gql-install|
+Usage			|gql-usage|
+Changelogs		|gql-changelog|
+
+==============================================================================
+INTRODUCTION						*gql-introduction*
+
+|gql| can execute Graphql query in vim.
+
+==============================================================================
+INSTALL							*gql-install*
+
+Install the distributed files into Vim runtime directory which is usually
+~/.vim/, or $HOME/vimfiles on Windows.
+
+If you use built in `package`, you should extract the
+file into '~/.vim/pack/*/start' directory.
+
+==============================================================================
+TUTORIAL						*gql-usage*
+
+- Invoke manually
+
+Open Graphql file and just execute `:Gql`.
+
+- Select server
+
+You can set server settings to your vimrc.
+>
+  let g:gql_servers = [
+    \ {
+    \   'host': 'https://api.github.com/graphql',
+    \   'headers': {'Authorization': 'bearer YOUR_TOKEN'},
+    \ },
+    \ {
+    \   'host': 'http://localhost:8080/.netlify/functions/index',
+    \   'headers': {'Content-Type': 'application/json'},
+    \ },
+    \]
+<
+
+You can select server with -server option(if you omit `-server`,
+g:gql_servers[0] is set).
+>
+  :Gql -server=https://api.github.com/graphql
+<
+If your query contains variables.
+
+e.g.
+>
+  query GetRepos($owner: String!) {
+    user(login: $owner) {
+      repositories(last: 100, orderBy: {field: UPDATED_AT, direction: DESC}) {
+        totalCount
+      }
+    }
+  }
+<
+You can set variable like following.
+>
+  :Gql -server=https://api.github.com/graphql $owner=YOUR_ACCOUNT
+>
+==============================================================================
+VARIABLES						*gql-variables*
+g:gql_servers						*gql_servers*
+		Graphql server settings
+		Default value is []
+
+g:gql_formatter						*gql_formatter*
+		Path to JSON Formatter.
+		Default value is 'scripts/format.py'
+
+==============================================================================
+CHANGELOG						*gql-changelog*
+2020-01-11
+- First release
+
+vim:tw=78:ts=8:ft=help:norl:noet:fen:fdl=0:
