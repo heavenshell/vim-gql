@@ -1,0 +1,45 @@
+name: build
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+env:
+  VIMREPO: https://github.com/vim/vim
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Vim
+      shell: bash
+      run: |
+        if ! git clone ${VIMREPO}.git; then
+          if [ "${{ github.event_name }}" = 'pull_request' ]; then
+            git clone ${VIMREPO}.git --depth=1
+          else
+            exit 0
+          fi
+        fi
+        cd vim
+
+    - name: Build
+      shell: cmd
+      run: |
+        cd vim/src
+        ./configure --with-features=huge --enable-fail-if-missing --enable-pythoninterp --prefix=$HOME/bin/vim
+        make && make install
+        git clone https://github.com/junegunn/vader.vim.git
+        export VIM_EXE=$HOME/bin/vim/bin/vim
+
+    - name: Build
+      shell: cmd
+      run: |
+        git clone https://github.com/junegunn/vader.vim.git $HOME/build/heavenshell/vim-gql/tests
+        cd $HOME/build/heavenshell/vim-gql/tests
+        VIM_EXE=$HOME/bin/vim/bin/vim ./run.sh > /dev/null && echo Success || echo Fail
