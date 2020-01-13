@@ -29,19 +29,11 @@ jobs:
         cd vim/src
         ./configure --with-features=huge --enable-fail-if-missing --enable-pythoninterp --prefix=$HOME/bin/vim
         make && make install
-        git clone https://github.com/junegunn/vader.vim.git
         export VIM_EXE=$HOME/bin/vim/bin/vim
 
     - name: Test
       shell: bash
       run: |
-        ls $HOME/
-        echo 'runners'
-        ls $HOME/runners
-        echo 'work'
-        ls $HOME/work
-        echo 'factory'
-        ls $HOME/factory
-        git clone https://github.com/junegunn/vader.vim.git $HOME/build/heavenshell/vim-gql/tests
-        cd $HOME/build/heavenshell/vim-gql/tests
+        git clone https://github.com/junegunn/vader.vim.git $HOME/work/vim-gql/tests
+        cd $HOME/work/vim-gql/tests
         VIM_EXE=$HOME/bin/vim/bin/vim ./run.sh > /dev/null && echo Success || echo Fail
