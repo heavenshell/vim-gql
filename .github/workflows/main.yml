@@ -36,6 +36,9 @@ jobs:
       shell: bash
       run: |
         ls $HOME/
+        ls $HOME/runners
+        ls $HOME/work
+        ls $HOME/factory
         git clone https://github.com/junegunn/vader.vim.git $HOME/build/heavenshell/vim-gql/tests
         cd $HOME/build/heavenshell/vim-gql/tests
         VIM_EXE=$HOME/bin/vim/bin/vim ./run.sh > /dev/null && echo Success || echo Fail
