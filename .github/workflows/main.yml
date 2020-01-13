@@ -32,9 +32,10 @@ jobs:
         git clone https://github.com/junegunn/vader.vim.git
         export VIM_EXE=$HOME/bin/vim/bin/vim
 
-    - name: Build
+    - name: Test
       shell: bash
       run: |
+        ls $HOME/
         git clone https://github.com/junegunn/vader.vim.git $HOME/build/heavenshell/vim-gql/tests
         cd $HOME/build/heavenshell/vim-gql/tests
         VIM_EXE=$HOME/bin/vim/bin/vim ./run.sh > /dev/null && echo Success || echo Fail
