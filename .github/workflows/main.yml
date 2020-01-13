@@ -24,7 +24,7 @@ jobs:
         cd vim
 
     - name: Build
-      shell: cmd
+      shell: bash
       run: |
         cd vim/src
         ./configure --with-features=huge --enable-fail-if-missing --enable-pythoninterp --prefix=$HOME/bin/vim
@@ -33,7 +33,7 @@ jobs:
         export VIM_EXE=$HOME/bin/vim/bin/vim
 
     - name: Build
-      shell: cmd
+      shell: bash
       run: |
         git clone https://github.com/junegunn/vader.vim.git $HOME/build/heavenshell/vim-gql/tests
         cd $HOME/build/heavenshell/vim-gql/tests
