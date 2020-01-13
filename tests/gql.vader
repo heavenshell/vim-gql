@@ -1,0 +1,72 @@
+# vim:set et sw=4 ts=4 tw=79:
+Execute ('Gql'):
+  :edit ./graphql/GetMe.graphql
+  :Gql
+  :sleep 1
+
+  :let winnum = bufwinnr(bufnr('^Gql$'))
+  :execute winnum 'wincmd w'
+
+  let output = join(getbufline(bufnr('%'), 1, '$'), "\n") . "\n"
+  let matched = match(output, '"login":\s"\w\+"')
+  AssertEqual matched, 36
+
+Execute ('Gql with variable'):
+  :edit ./graphql/GetRepos.graphql
+  :Gql $owner=heavenshell
+  :sleep 1
+
+  :let winnum = bufwinnr(bufnr('^Gql$'))
+  :execute winnum 'wincmd w'
+
+  let output = join(getbufline(bufnr('%'), 1, '$'), "\n") . "\n"
+  let matched = match(output, '"data":\s{')
+  AssertEqual matched, 4
+
+Execute ('Gql with variable and -server'):
+  :edit ./graphql/GetRepos.graphql
+  :Gql -server https://api.github.com/graphql $owner=heavenshell
+  :sleep 1
+
+  :let winnum = bufwinnr(bufnr('^Gql$'))
+  :execute winnum 'wincmd w'
+
+  let output = join(getbufline(bufnr('%'), 1, '$'), "\n") . "\n"
+  let matched = match(output, '"data":\s{')
+  AssertEqual matched, 4
+
+Execute ('Gql with -server'):
+  :edit ./graphql/GetMe.graphql
+  :Gql -server
+  :sleep 1
+
+  :let winnum = bufwinnr(bufnr('^Gql$'))
+  :execute winnum 'wincmd w'
+
+  let output = join(getbufline(bufnr('%'), 1, '$'), "\n") . "\n"
+  let matched = match(output, '"data":\s{')
+  AssertEqual matched, 4
+
+Execute ('Gql complete'):
+  :edit ./graphql/GetMe.graphql
+
+  let ret = gql#complete('', 'Gql', 4)
+  AssertEqual ret, ['-server']
+
+Execute ('Gql complete with -'):
+  :edit ./graphql/GetMe.graphql
+
+  let ret = gql#complete('-', 'Gql -', 5)
+  AssertEqual ret, ['-server']
+
+Execute ('Gql complete -server https://api.github.com/graphql'):
+  :edit ./graphql/GetMe.graphql
+
+  let ret = gql#complete('', 'Gql -server ', 12)
+  AssertEqual ret, ['https://api.github.com/graphql']
+
+Execute ('Gql complete variable'):
+  :edit ./graphql/GetRepos.graphql
+
+  let ret = gql#complete('', 'Gql', 4)
+  AssertEqual ret, ['$owner', '-server']

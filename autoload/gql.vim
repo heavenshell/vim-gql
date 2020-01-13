@@ -37,15 +37,22 @@ function! s:parse_options(args) abort
   let variables = {}
   while i < size
     if a:args[i] =~# '-server'
-      let server = filter(servers, {_, v -> v['host'] =~# a:args[i + 1]})
-      if len(server)
-        let server = server[0]
+      let host = get(a:args, i + 1, '')
+      if host != ''
+        let server = filter(servers, {_, v -> v['host'] =~# host})
+        if len(server) > 0
+          let server = server[0]
+        endif
       endif
       let i += 1
       continue
     endif
     if a:args[i] =~# '^$\w\+.='
       let vars = split(a:args[i], '=')
+      if len(vars) != 2
+        let i += 1
+        continue
+      endif
       let key = substitute(vars[0], '^\$', '', '')
       let variables[key] = vars[1]
     endif
@@ -54,7 +61,6 @@ function! s:parse_options(args) abort
 
   return {'server': server, 'variables': variables}
 endfunction
-
 
 function! s:get_query(start_lnum, end_lnum) abort
   return join(getbufline(bufnr('%'), a:start_lnum, a:end_lnum), "\n") . "\n"
@@ -112,6 +118,8 @@ function! gql#complete(lead, cmd, pos) abort
   call substitute(input, '\$\w\+', '\=add(args, submatch(0))', 'g')
   call uniq(args)
 
+  let args += s:candidates
+
   let ret = filter(args, {_, v -> v =~# '^' . a:lead})
   return ret
 endfunction
@@ -123,11 +131,14 @@ function! gql#run(...)
 
   let args = a:000[0] == '' ? [] : split(a:000[0], '')
   let opts = s:parse_options(args)
+  if len(opts['server']) == 0
+    return
+  endif
 
   let range = s:get_range()
   let query = {'query': s:get_query(range['start_lnum'], range['end_lnum'])}
 
-  if opts['variables'] != {}
+  if len(opts['variables']) > 0
     let query['variables'] = opts['variables']
   endif
   let query = json_encode(query)
