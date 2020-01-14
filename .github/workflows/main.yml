@@ -26,6 +26,8 @@ jobs:
     - name: Build
       shell: bash
       run: |
+        tree
+        echo '--------------'
         cd vim/src
         ./configure --with-features=huge --enable-fail-if-missing --enable-pythoninterp --prefix=$HOME/bin/vim
         make && make install
