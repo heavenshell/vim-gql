@@ -26,8 +26,6 @@ jobs:
     - name: Build
       shell: bash
       run: |
-        tree
-        echo '--------------'
         cd vim/src
         ./configure --with-features=huge --enable-fail-if-missing --enable-pythoninterp --prefix=$HOME/bin/vim
         make && make install
@@ -36,6 +34,13 @@ jobs:
     - name: Test
       shell: bash
       run: |
+        ls $HOME
+        echo '-------'
+        ls $HOME/work
+        echo '-------'
+        ls $HOME/work/vim-gql
+        echo '-------'
+
         git clone https://github.com/junegunn/vader.vim.git $HOME/work/vim-gql/tests
         cd $HOME/work/vim-gql/tests
         VIM_EXE=$HOME/bin/vim/bin/vim ./run.sh > /dev/null && echo Success || echo Fail
