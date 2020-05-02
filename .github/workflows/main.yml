@@ -35,11 +35,8 @@ jobs:
       shell: bash
       run: |
         ls $HOME
-        echo '-------'
         ls $HOME/work
-        echo '-------'
         ls $HOME/work/vim-gql/tests
-        echo '-------'
 
         git clone https://github.com/junegunn/vader.vim.git $HOME/work/vim-gql/tests
         cd $HOME/work/vim-gql/tests
