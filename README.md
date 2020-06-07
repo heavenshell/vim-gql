@@ -30,6 +30,10 @@ Execute `Gql` command.
 ![with variable](./assets/vim-gql_variable.gif)
 ![with tsx](./assets/vim-gql_tsx.gif)
 
+## Requirement
+
+This plugin need [webapi-vim](https://github.com/mattn/webapi-vim).
+
 ## License
 
 New BSD License
