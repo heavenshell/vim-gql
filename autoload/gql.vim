@@ -69,6 +69,10 @@ endfunction
 function! s:send(timer)
   let opts = remove(s:queue, 0, 0)[0]
   let res = webapi#http#post(opts['host'], opts['query'], opts['headers'])
+  if res.status != 200
+    echohl Error | echomsg printf('%s returns error', opts['host']) | echohl None
+    return
+  endif
 
   let winnum = bufwinnr(bufnr('^Gql$'))
   if winnum != -1
@@ -76,12 +80,19 @@ function! s:send(timer)
       execute winnum 'wincmd w'
     endif
   else
-    exec 'silent noautocmd split Gql'
+    execute 'silent noautocmd split Gql'
   endif
   setlocal modifiable
   silent %d
 
-  call setline(1, json_encode(json_decode(res.content)))
+  let content = res.content
+  try
+    content = json_encode(json_decode(res.content))
+  catch
+  endtry
+
+  call setline(1, content)
+
   let cmd = g:gql_formatter
   if g:gql_formatter == ''
     let cmd = printf('%%!python %s/scripts/format.py', s:script_path)
