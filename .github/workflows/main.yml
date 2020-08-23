@@ -34,4 +34,5 @@ jobs:
           cd ./tests
           ls -la .
           echo '---'
-          VIM_EXE=$HOME/vim/bin/vim $VIM_EXE -u vimrc -c 'Vader! gql.vader'
+          vim --version
+          vim -u vimrc -c 'Vader! gql.vader'
