@@ -34,13 +34,5 @@ jobs:
     - name: Test
       shell: bash
       run: |
-        echo 'HOME/vim-gql/vim'
-        ls $HOME/work/vim-gql/vim-gql/
-        ls $HOME/work/vim-gql/vim-gql/vim
-        ls $HOME/work/vim-gql/vim-gql/tests
-
-
-
         git clone https://github.com/junegunn/vader.vim.git $HOME/work/vim-gql/tests
-        cd $HOME/work/vim-gql/tests
-        VIM_EXE=$HOME/bin/vim/bin/vim ./run.sh > /dev/null && echo Success || echo Fail
+        VIM_EXE=$HOME/bin/vim/bin/vim ./tests/run.sh > /dev/null && echo Success || echo Fail
