@@ -24,6 +24,7 @@ jobs:
         cd vim
 
     - name: Build
+      working-directory: ./vim-gql
       shell: bash
       run: |
         cd vim/src
@@ -35,7 +36,7 @@ jobs:
       shell: bash
       run: |
         echo 'HOME/vim-gql'
-        ls $HOME/work/vim-gql
+        ls $HOME/vim-gql
         echo 'HOME/vim-gql'
         ls $HOME/work/vim-gql/vim-gql
         echo 'HOME/vim-gql/vim'
