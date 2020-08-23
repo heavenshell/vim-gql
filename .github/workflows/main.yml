@@ -35,9 +35,7 @@ jobs:
         shell: bash
         run: |
           export PATH=~/vim/bin:$PATH
-          echo '$HOME'
-          ls $HOME
-          ls ./tests
-          # export VIM_EXE=vim
-          # ./tests/run.sh > /dev/null && echo Success || echo Fail
+          cd ./tests
+          export VIM_EXE=vim
+          VIM_EXE ./run.sh > /dev/null && echo Success || echo Fail
 
