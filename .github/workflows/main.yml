@@ -37,9 +37,10 @@ jobs:
         echo 'HOME'
         ls $HOME
         echo 'HOME/work'
-        ls $HOME/work
+        tree
         echo 'HOME/vim-gql'
-        ls $HOME/work/vim-gql/vim-gql/tests
+        ls $HOME/work/vim-gql/vim-gql
+
 
         git clone https://github.com/junegunn/vader.vim.git $HOME/work/vim-gql/tests
         cd $HOME/work/vim-gql/tests
