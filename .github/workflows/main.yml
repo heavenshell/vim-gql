@@ -34,8 +34,11 @@ jobs:
     - name: Test
       shell: bash
       run: |
+        echo 'HOME'
         ls $HOME
+        echo 'HOME/work'
         ls $HOME/work
+        echo 'HOME/vim-gql'
         ls $HOME/work/vim-gql/tests
 
         git clone https://github.com/junegunn/vader.vim.git $HOME/work/vim-gql/tests
