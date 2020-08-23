@@ -2,12 +2,13 @@
 Execute ('Gql'):
   :edit ./graphql/GetMe.graphql
   :Gql
-  :sleep 1
+  :sleep 2
 
   :let winnum = bufwinnr(bufnr('^Gql$'))
   :execute winnum 'wincmd w'
 
   let output = join(getbufline(bufnr('%'), 1, '$'), "\n") . "\n"
+  :echomsg output
   let matched = match(output, '"login":\s"\w\+"')
   AssertEqual matched, 36
 
