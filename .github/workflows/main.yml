@@ -2,37 +2,39 @@ name: build
 
 on: [push, pull_request]
 
-env:
-  VIMREPO: https://github.com/vim/vim
-
 jobs:
   build:
-
-    runs-on: ubuntu-latest
-
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        name: [vim-v82-x64, vim-v81-x64]
+        include:
+          - name: vim-v82-x64
+            os: ubuntu-latest
+            vim_version: 8.2.0037
+            glibc_version: 2.15
+          - name: vim-v81-x64
+            os: ubuntu-latest
+            vim_version: 8.1.2414
+            glibc_version: 2.15
+    runs-on: ${{matrix.os}}
     steps:
-    - name: Checkout Vim
-      shell: bash
-      run: |
-        if ! git clone ${VIMREPO}.git; then
-          if [ "${{ github.event_name }}" = 'pull_request' ]; then
-            git clone ${VIMREPO}.git --depth=1
-          else
-            exit 0
-          fi
-        fi
-        cd vim
+      - uses: actions/checkout@v2
+      - name: Download vim
+        shell: bash
+        run: |
+          mkdir -p ~/vim/bin
+          curl -L https://github.com/vim/vim-appimage/releases/download/v${{matrix.vim_version}}/GVim-v${{matrix.vim_version}}.glibc${{matrix.glibc_version}}-x86_64.AppImage -o ~/vim/bin/vim
+          chmod u+x ~/vim/bin/vim
+      - name: Download test runner
+        shell: bash
+        run: git clone --depth 1 --single-branch https://github.com/junegunn/vader.vim.git
 
-    - name: Build
-      shell: bash
-      run: |
-        cd vim/src
-        ./configure --with-features=huge --enable-fail-if-missing --enable-pythoninterp --prefix=$HOME/bin/vim
-        make && make install
-        export VIM_EXE=$HOME/bin/vim/bin/vim
+      - name: Run tests
+        shell: bash
+        run: |
+          export PATH=~/vim/bin:$PATH
+          export VIM_EXE=vim
+          ./tests/run.sh > /dev/null && echo Success || echo Fail
 
-    - name: Test
-      shell: bash
-      run: |
-        git clone https://github.com/junegunn/vader.vim.git $HOME/work/vim-gql/tests
-        VIM_EXE=$HOME/bin/vim/bin/vim ./tests/run.sh > /dev/null && echo Success || echo Fail
