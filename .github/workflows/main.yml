@@ -24,7 +24,6 @@ jobs:
         cd vim
 
     - name: Build
-      working-directory: ./vim-gql
       shell: bash
       run: |
         cd vim/src
@@ -35,12 +34,11 @@ jobs:
     - name: Test
       shell: bash
       run: |
-        echo 'HOME/vim-gql'
-        ls $HOME/vim-gql
-        echo 'HOME/vim-gql'
-        ls $HOME/work/vim-gql/vim-gql
         echo 'HOME/vim-gql/vim'
+        ls $HOME/work/vim-gql/vim-gql/
         ls $HOME/work/vim-gql/vim-gql/vim
+        ls $HOME/work/vim-gql/vim-gql/tests
+
 
 
         git clone https://github.com/junegunn/vader.vim.git $HOME/work/vim-gql/tests
