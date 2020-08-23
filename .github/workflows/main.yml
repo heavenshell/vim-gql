@@ -35,11 +35,11 @@ jobs:
       shell: bash
       run: |
         echo 'HOME/vim-gql'
-        ll $HOME/work/vim-gql
+        ls $HOME/work/vim-gql
         echo 'HOME/vim-gql'
-        ll $HOME/work/vim-gql/vim-gql
+        ls $HOME/work/vim-gql/vim-gql
         echo 'HOME/vim-gql/vim'
-        ll $HOME/work/vim-gql/vim-gql/vim
+        ls $HOME/work/vim-gql/vim-gql/vim
 
 
         git clone https://github.com/junegunn/vader.vim.git $HOME/work/vim-gql/tests
