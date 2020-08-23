@@ -32,9 +32,10 @@ jobs:
       - name: Run tests
         shell: bash
         run: |
-          export PATH=~/vim/bin:$PATH
           cd ./tests
           ls -la .
           echo '---'
           vim --version
           vim -u vimrc -c 'Vader! gql.vader'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
