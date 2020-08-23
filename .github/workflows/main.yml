@@ -36,7 +36,4 @@ jobs:
         run: |
           export PATH=~/vim/bin:$PATH
           cd ./tests
-          ls .
-          export VIM_EXE=vim
-          bash ./run.sh > /dev/null && echo Success || echo Fail
-
+          VIM_EXE=vim bash ./run.sh
