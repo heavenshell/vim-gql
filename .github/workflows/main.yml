@@ -29,7 +29,7 @@ jobs:
           chmod u+x ~/vim/bin/vim
       - name: Download test runner
         shell: bash
-        run: git clone --depth 1 --single-branch https://github.com/junegunn/vader.vim.git
+        run: git clone --depth 1 --single-branch https://github.com/junegunn/vader.vim.git ./tests/vader
 
       - name: Run tests
         shell: bash
