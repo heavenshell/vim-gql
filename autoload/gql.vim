@@ -70,7 +70,7 @@ function! s:send(timer)
   let opts = remove(s:queue, 0, 0)[0]
   let res = webapi#http#post(opts['host'], opts['query'], opts['headers'])
   if res.status != 200
-    echohl Error | echomsg printf('%s returns error', opts['host']) | echohl None
+    echohl Error | echomsg printf('%s returns error %s', opts['host'], string(res)) | echohl None
     return
   endif
 
