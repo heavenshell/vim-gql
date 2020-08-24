@@ -8,7 +8,6 @@ Execute ('Gql'):
   :execute winnum 'wincmd w'
 
   let output = join(getbufline(bufnr('%'), 1, '$'), "\n") . "\n"
-  :echomsg output
   let matched = match(output, '"login":\s"[A-z0-9_-]\+"')
   AssertEqual matched, 36
 
