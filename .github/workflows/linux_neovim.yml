@@ -19,7 +19,7 @@ jobs:
       - name: Download vim
         shell: bash
         run: |
-          mkdir -p ~/vim/bin
+          mkdir -p ~/nvim/bin
           curl -L https://github.com/neovim/neovim/releases/download/${{matrix.neovim_version}}/nvim.appimage -o ~/nvim/bin/nvim
           chmod u+x ~/nvim/bin/nvim
       - name: Download test runner
