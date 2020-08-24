@@ -31,6 +31,7 @@ jobs:
       - name: Run tests
         shell: bash
         run: |
+          export PATH=~/nvim/bin:$PATH
           cd ./tests
           nvim -u vimrc -c 'Vader! gql.vader'
         env:

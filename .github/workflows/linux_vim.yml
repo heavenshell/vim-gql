@@ -32,6 +32,7 @@ jobs:
       - name: Run tests
         shell: bash
         run: |
+          export PATH=~/vim/bin:$PATH
           cd ./tests
           vim -u vimrc -c 'Vader! gql.vader'
         env:
