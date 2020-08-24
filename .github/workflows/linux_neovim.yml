@@ -8,21 +8,20 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        name: [vim-v82-x64]
+        name: [neovim-v04-x64]
         include:
-          - name: vim-v82-x64
+          - name: neovim-v04-x64
             os: ubuntu-latest
-            vim_version: 8.2.0037
-            glibc_version: 2.15
+            neovim_version: v0.4.3
     runs-on: ${{matrix.os}}
     steps:
       - uses: actions/checkout@v2
       - name: Download vim
         shell: bash
         run: |
-          mkdir -p ~/vim/bin
-          curl -L https://github.com/vim/vim-appimage/releases/download/v${{matrix.vim_version}}/GVim-v${{matrix.vim_version}}.glibc${{matrix.glibc_version}}-x86_64.AppImage -o ~/vim/bin/vim
-          chmod u+x ~/vim/bin/vim
+          mkdir -p ~/nvim/bin
+          curl -L https://github.com/neovim/neovim/releases/download/${{matrix.neovim_version}}/nvim.appimage -o ~/nvim/bin/nvim
+          chmod u+x ~/nvim/bin/nvim
       - name: Download test runner
         shell: bash
         run: |
@@ -32,7 +31,8 @@ jobs:
       - name: Run tests
         shell: bash
         run: |
+          export PATH=~/nvim/bin:$PATH
           cd ./tests
-          vim -u vimrc -c 'Vader! gql.vader'
+          nvim -u vimrc -c 'Vader! gql.vader'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

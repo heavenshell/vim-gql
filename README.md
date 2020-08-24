@@ -1,5 +1,7 @@
 # vim-gql
 
+![build](https://github.com/heavenshell/vim-gql/workflows/build/badge.svg)
+
 Execute Graphql's query in vim.
 
 ## Usage
